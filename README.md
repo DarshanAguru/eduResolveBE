@@ -1,7 +1,7 @@
 # Welcome to Edu Resolve - Your Student Community Website
 *This is the backend Repository for Edu Resolve Website*
 
-[Click Here for Front End Repository for Edu Resolve Website]()
+[Click Here for Front End Repository for Edu Resolve Website](https://github.com/DarshanAguru/eduResolveFE)
 ## About Edu Resolve
 Edu Resolve is a dynamic online platform designed to foster a vibrant student community where learning thrives. Whether you're a student seeking answers to your academic queries, a teacher looking to engage with your students outside the classroom, or a mentor eager to share your expertise, Edu Resolve provides the ideal environment for knowledge exchange and collaboration.
 
