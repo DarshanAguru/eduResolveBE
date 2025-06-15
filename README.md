@@ -30,6 +30,6 @@ I'm a programming enthusiast, always curious to learn new things and try new tec
 Python, Java, Javascript, HTML, CSS...
 
 ## 🔗 Links
-[![portfolio](https://img.shields.io/badge/portfolio-0A66C2?style=for-the-badge&logo=google-chrome&logoColor=white)](https://agurudarshan.tech)
+[![portfolio](https://img.shields.io/badge/portfolio-0A66C2?style=for-the-badge&logoColor=white)](https://agurudarshan.tech)
 [![linkedin](https://img.shields.io/badge/linkedin-0A66C2?style=for-the-badge&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/this-darshiii/)
 [![twitter](https://img.shields.io/badge/twitter-1DA1F2?style=for-the-badge&logo=twitter&logoColor=white)](https://twitter.com/this_darshiii)
