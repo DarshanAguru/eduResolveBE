@@ -1,7 +1,7 @@
 # Welcome to Edu Resolve - Your Student Community Website
 *This is the backend Repository for Edu Resolve Website*
 
-[Click Here for Front End Repository for Edu Resolve Website](https://github.com/raghava4327/Edu_Resolve_Front_End)
+[Click Here for Front End Repository for Edu Resolve Website]()
 ## About Edu Resolve
 Edu Resolve is a dynamic online platform designed to foster a vibrant student community where learning thrives. Whether you're a student seeking answers to your academic queries, a teacher looking to engage with your students outside the classroom, or a mentor eager to share your expertise, Edu Resolve provides the ideal environment for knowledge exchange and collaboration.
 
@@ -30,5 +30,6 @@ I'm a programming enthusiast, always curious to learn new things and try new tec
 Python, Java, Javascript, HTML, CSS...
 
 ## 🔗 Links
+[![portfolio](https://img.shields.io/badge/portfolio-0A66C2?style=for-the-badge&logo=google-chrome&logoColor=white)](https://agurudarshan.tech)
 [![linkedin](https://img.shields.io/badge/linkedin-0A66C2?style=for-the-badge&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/this-darshiii/)
 [![twitter](https://img.shields.io/badge/twitter-1DA1F2?style=for-the-badge&logo=twitter&logoColor=white)](https://twitter.com/this_darshiii)
