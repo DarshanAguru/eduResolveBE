@@ -1,6 +1,6 @@
 import cluster from 'cluster'
 import os from 'node:os'
-import app from './App'
+import app from './App.js'
 
 const port = process.env.PORT || 9000
 
