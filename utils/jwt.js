@@ -5,10 +5,16 @@ export async function verifyToken (req, res, next) {
   try {
     const token = req.body.token
     const userIdReq = req.body.id
-    if (token === null) {
-      return res.status(403).send({ message: 'Forbidden' }) // if no cookies
+    if (token === null || token === undefined || token.trim() === '') {
+      return res.status(401).send({ message: 'Not Authorized' }) // if no cookies
     }
-
+    if (userIdReq === null || userIdReq === undefined || userIdReq.trim() === '') {
+      return res.status(401).send({ message: 'Not Authorized' }) // if no userId
+    }
+    const jwtRegex = /^[A-Za-z0-9-_]+\.[A-Za-z0-9-_]+\.[A-Za-z0-9-_]+$/
+    if (!jwtRegex.test(token)) {
+      return res.status(403).send({ message: 'Invalid Token' }) // if token is not in JWT format
+    }
     const decoded = await jwt.verify(token, process.env.JWT_SECRET_KEY, { algorithms: ['HS256'] }) // verify and decode token
 
     const { userId } = decoded

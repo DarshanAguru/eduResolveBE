@@ -16,8 +16,11 @@ export const login = async (req, res) => {
     }
 
     // if incorrect credentials
-    if (!(await verifyPass(password, student.password))) {
-      return res.status(401).send({ message: 'Not authorized' })
+    try {
+      const isValid = await verifyPass(password, student.password)
+      if (!isValid) return res.status(401).send({ message: 'Not authorized' })
+    } catch (err) {
+      return res.status(500).send({ message: 'Error verifying password' })
     }
 
     const expTime = 60 * 60 * 24 // expiration time in seconds (1 day)
@@ -63,9 +66,30 @@ export const login = async (req, res) => {
 export const register = async (req, res) => {
   const { phoneNumber, name, emailId, grade, school, birthdate, gender, password } =
     req.body
+    // check validity of the data
+  if (
+    !phoneNumber || !name || !emailId || !grade || !school || !birthdate || !gender || !password
+  ) {
+    return res.status(400).send({ message: 'Invalid data' })
+  }
+
+  // Validate phone number format (example: 10 digits)
+  const phoneRegex = /^\d{10}$/
+  if (!phoneRegex.test(phoneNumber)) {
+    return res.status(400).send({ message: 'Invalid phone number format' })
+  }
+  // Validate email format
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+  if (!emailRegex.test(emailId)) {
+    return res.status(400).send({ message: 'Invalid email format' })
+  }
+
   const hashedPassword = await hashPassword(password)
   const age = new Date().getFullYear() - new Date(birthdate).getFullYear() // calculating age from birthdate
-
+  const existingStudent = await Students.findOne({ phoneNumber })
+  if (existingStudent) {
+    return res.status(409).send({ message: 'Phone number already exists' })
+  }
   try {
     const newStudent = new Students({
       phoneNumber,
@@ -93,12 +117,12 @@ export const getAssignment = async (req, res) => {
       return res.status(404).send({ message: 'Not Found' })
     }
 
-    for (let i = 0; i < assignment.questions.length; i++) {
-      for (let j = 0; j < assignment.questions[i].options.length; j++) {
-        assignment.questions[i].options[j].isChecked = false
-      }
-    }
-    const assignmentToSend = { ...assignment, answers: undefined }
+    const assignmentCopy = JSON.parse(JSON.stringify(assignment))
+    assignmentCopy.questions.forEach(q => {
+      q.options.forEach(opt => (opt.isChecked = false))
+    })
+
+    const assignmentToSend = { ...assignmentCopy, answers: undefined }
 
     res.status(200).send(assignmentToSend)
   } catch (err) {
@@ -112,12 +136,11 @@ export const editDetails = async (req, res) => {
   try {
     const student = await Students.findOneAndUpdate(
       { _id: studentId },
-      { name, age, school, grade, gender }
+      { name, age, school, grade, gender }, { new: true }
     )
     if (!student) {
       return res.status(404).send({ message: 'Student not found' })
     }
-    await student.save()
     res.status(200).send({ message: 'Success' })
   } catch (err) {
     return res.status(500).send({ message: 'Internal Server Error' })
@@ -152,13 +175,13 @@ export const getAllMessagesOfStudent = async (req, res) => {
     if (!student) {
       return res.status(404).send({ message: 'Student Details not found' })
     }
-    const arrMessages = []
-    for (let i = 0; i < student.messages.length; i++) {
-      if (student.messages[i].split('@')[0] === studentId) {
-        const msg = await Messages.findOne({ messageId: student.messages[i] })
-        arrMessages.push(msg)
-      }
-    }
+
+    const messageIds = student.messages.filter(id => id.startsWith(studentId))
+
+    const messages = await Messages.find({ messageId: { $in: messageIds } })
+
+    const arrMessages = messages.filter(msg => msg.messageId.split('@')[0] === studentId)
+
     res.status(200).send(arrMessages)
   } catch (err) {
     return res.status(500).send({ message: 'Internal Server Error' })
@@ -185,12 +208,12 @@ export const submitAssignment = async (req, res) => {
           if (j >= assignmentAnswers[i].length) {
             break
           }
-          assignmentAnswers[i].sort()
-          assignment.questions[i].answers.sort()
-          if (
-            assignment.questions[i].answers[j].trim().toLowerCase() ===
-            assignmentAnswers[i][j].trim().toLowerCase()
-          ) {
+          const submitted = [...assignmentAnswers[i]].sort()
+          const correct = [...assignment.questions[i].answers].sort()
+          const isCorrect = submitted.every((ans, j) =>
+            ans.trim().toLowerCase() === correct[j]?.trim().toLowerCase()
+          )
+          if (isCorrect) {
             check += 1
           }
         }
@@ -319,7 +342,7 @@ export const getAllSchools = async (req, res) => {
       { verificationStatus: 'verified' },
       'institution'
     )
-    if (!schools) {
+    if (!schools || schools.length === 0) {
       return res.status(404).send({ message: 'Not Found' })
     }
     res.status(200).send(schools)

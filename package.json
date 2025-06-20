@@ -8,7 +8,9 @@
     "start": "nodemon server.js",
     "dev": "nodemon server.js",
     "eslint": "eslint ./",
-    "eslint-fix": "eslint ./ --fix"
+    "eslint-fix": "eslint ./ --fix",
+    "test": "cross-env NODE_ENV=test node --experimental-vm-modules node_modules/jest/bin/jest.js --runInBand",
+    "test:watch": "npm run test -- --watch"
   },
   "keywords": [],
   "author": "",
@@ -42,9 +44,13 @@
     "uuidv4": "^6.2.13"
   },
   "devDependencies": {
+    "cross-env": "^7.0.3",
     "eslint-config-standard": "^17.1.0",
     "eslint-plugin-import": "^2.29.1",
     "eslint-plugin-n": "^16.6.2",
-    "eslint-plugin-promise": "^6.1.1"
+    "eslint-plugin-promise": "^6.1.1",
+    "jest": "^29.7.0",
+    "mongodb-memory-server": "^10.1.4",
+    "supertest": "^7.1.1"
   }
 }

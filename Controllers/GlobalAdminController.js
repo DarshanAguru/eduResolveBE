@@ -51,6 +51,21 @@ export const register = async (req, res) => {
   const { phoneNumber, name, emailId, password, birthdate, gender } = req.body
   const hashedPassword = await hashPassword(password)
   const age = new Date().getFullYear() - new Date(birthdate).getFullYear() // calculating age from birthdate
+  if (!phoneNumber || !name || !emailId || !password || !birthdate || !gender) {
+    return res.status(400).send({ message: 'Invalid data' })
+  }
+  if (!/^\d{10}$/.test(phoneNumber)) {
+    return res.status(400).send({ message: 'Invalid phone number format' }) // phone number should be 10 digits
+  }
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+  if (!emailRegex.test(emailId)) {
+    return res.status(400).send({ message: 'Invalid email format' }) // email should be in valid format
+  }
+
+  const existingAdmin = await GlobalAdmins.findOne({ phoneNumber }) // checking if the phone number already exists
+  if (existingAdmin) {
+    return res.status(409).send({ message: 'Phone number already exists' })
+  }
 
   try {
     const newGlobalAdmin = new GlobalAdmins({
@@ -118,7 +133,6 @@ export const verifyLocalAdmin = async (req, res) => {
 
   try {
     const localAdmin = await LocalAdmins.findOne({ _id: localAdminId })
-
     if (!localAdmin) {
       return res.status(404).send({ message: 'Local Admin Not Found' })
     }
@@ -127,7 +141,7 @@ export const verifyLocalAdmin = async (req, res) => {
       return res.status(200).send({ message: 'Already Verified' })
     }
 
-    const updateLocalAdmin = await LocalAdmins.updateOne({ _id: localAdminId }, { verificationStatus: 'verified' })
+    const updateLocalAdmin = await LocalAdmins.findOneAndUpdate({ _id: localAdminId }, { verificationStatus: 'verified' })
     if (!updateLocalAdmin) {
       return res.status(500).send({ message: 'Internal Server Error' })
     }
@@ -141,7 +155,7 @@ export const verifyLocalAdmin = async (req, res) => {
 export const getAllLocalAdmins = async (req, res) => {
   try {
     const localAdmins = await LocalAdmins.find({})
-    if (!localAdmins) {
+    if (!localAdmins || localAdmins.length === 0) {
       return res.status(404).send({ message: 'Not Found' })
     }
     res.status(200).send(localAdmins)

@@ -57,6 +57,21 @@ export const register = async (req, res) => {
   const { phoneNumber, name, emailId, institution, password, birthdate, gender, description, designation } = req.body
   const hashedPassword = await hashPassword(password)
   const age = new Date().getFullYear() - new Date(birthdate).getFullYear() // calculating age from birthdate
+  if (!phoneNumber || !name || !emailId || !password || !birthdate || !gender || !institution || !description || !designation) {
+    return res.status(400).send({ message: 'Invalid data' })
+  }
+  if (!/^\d{10}$/.test(phoneNumber)) {
+    return res.status(400).send({ message: 'Invalid phone number format' }) // phone number should be 10 digits
+  }
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+  if (!emailRegex.test(emailId)) {
+    return res.status(400).send({ message: 'Invalid email format' }) // email should be in valid format
+  }
+
+  const existingAdmin = await LocalAdmins.findOne({ phoneNumber }) // checking if the phone number already exists
+  if (existingAdmin) {
+    return res.status(409).send({ message: 'Phone number already exists' })
+  }
 
   try {
     const newLocalAdmin = new LocalAdmins({
