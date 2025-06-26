@@ -6,7 +6,7 @@
   "type": "module",
   "scripts": {
     "start": "nodemon server.js",
-    "dev": "npm run test && cross-env NODE_ENV=production nodemon server.js",
+    "dev": "cross-env NODE_ENV=production nodemon server.js",
     "eslint": "eslint ./",
     "eslint-fix": "eslint ./ --fix",
     "test": "cross-env NODE_ENV=test node --experimental-vm-modules node_modules/jest/bin/jest.js --runInBand",

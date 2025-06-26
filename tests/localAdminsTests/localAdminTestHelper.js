@@ -41,8 +41,8 @@ const localAdminFactory = (overrides = {}) => ({
   gender: 'Male',
   password: 'Test@123',
   institution: 'ABC Institute',
-  description: 'Test Description',
   designation: 'Test Designation',
+  address: '123 Test Street, Test City',
   ...overrides
 })
 

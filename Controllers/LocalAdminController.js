@@ -54,10 +54,10 @@ export const login = async (req, res) => {
 }
 
 export const register = async (req, res) => {
-  const { phoneNumber, name, emailId, institution, password, birthdate, gender, description, designation } = req.body
+  const { phoneNumber, name, emailId, institution, password, birthdate, gender, designation, address } = req.body
   const hashedPassword = await hashPassword(password)
   const age = new Date().getFullYear() - new Date(birthdate).getFullYear() // calculating age from birthdate
-  if (!phoneNumber || !name || !emailId || !password || !birthdate || !gender || !institution || !description || !designation) {
+  if (!phoneNumber || !name || !emailId || !password || !birthdate || !gender || !institution || !designation || !address) {
     return res.status(400).send({ message: 'Invalid data' })
   }
   if (!/^\d{10}$/.test(phoneNumber)) {
@@ -81,9 +81,9 @@ export const register = async (req, res) => {
       age,
       gender,
       password: hashedPassword,
-      description,
       designation,
-      institution
+      institution,
+      address
     })
 
     await newLocalAdmin.save()
