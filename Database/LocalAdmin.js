@@ -11,7 +11,7 @@ const LocalAdminsSchema = new Schema({
   password: { type: String, required: true },
   verificationStatus: { type: String, default: 'pending' },
   description: { type: String },
-  role: { type: String, default: 'organisation' },
+  role: { type: String, default: 'organization' },
   address: { type: String }
 },
 {
