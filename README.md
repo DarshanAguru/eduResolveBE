@@ -13,6 +13,7 @@ Edu Resolve is a dynamic online platform designed to foster a vibrant student co
 
 ## 💻 Technologies used
 The code is written in JavaScript programming language. It uses Express JS framework on top of Node.js environment.
+Used Minio for Object storage, visit "https://min.io/open-source/download" for documentation.
 Rest all libraries are mentioned in package.json file which can be installed using command:
 
 ```
