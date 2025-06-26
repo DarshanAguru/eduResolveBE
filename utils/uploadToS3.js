@@ -6,11 +6,13 @@ export const uploadImage = async (file, id, uuid) => {
   const region = process.env.REGION
   const accessKeyId = process.env.AWS_ACCESS_KEY_ID
   const secretAccessKey = process.env.AWS_SECRET_ACCESS_KEY
-
+  const endpoint = process.env.S3_END_POINT
   const s3 = new S3({
     region,
     accessKeyId,
-    secretAccessKey
+    secretAccessKey,
+    endpoint,
+    s3ForcePathStyle: true
   })
   const fileKey = `${uuid}@${file.originalname}`
   const b64key = Buffer.from(fileKey).toString('base64')
@@ -36,11 +38,14 @@ export const retrieveImage = async (key) => {
   const region = process.env.REGION
   const accessKeyId = process.env.AWS_ACCESS_KEY_ID
   const secretAccessKey = process.env.AWS_SECRET_ACCESS_KEY
+  const endpoint = process.env.S3_END_POINT
 
   const s3 = new S3({
     region,
     accessKeyId,
-    secretAccessKey
+    secretAccessKey,
+    endpoint,
+    s3ForcePathStyle: true
   })
 
   const downloadParams = {
@@ -57,11 +62,14 @@ export const deleteImage = async (key) => {
   const region = process.env.REGION
   const accessKeyId = process.env.AWS_ACCESS_KEY_ID
   const secretAccessKey = process.env.AWS_SECRET_ACCESS_KEY
+  const endpoint = process.env.S3_END_POINT
 
   const s3 = new S3({
     region,
     accessKeyId,
-    secretAccessKey
+    secretAccessKey,
+    endpoint,
+    s3ForcePathStyle: true
   })
 
   const deleteParams = {
