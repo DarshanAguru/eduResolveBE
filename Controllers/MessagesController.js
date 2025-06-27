@@ -374,7 +374,7 @@ export const uploadFile = async (req, res) => {
     const uuid = Date.now().toString()
     const result = await uploadImage(file, id, uuid)
     if (result.path === null) {
-      return res.status(400).send({ message: 'Image size should be below 8mb' })
+      return res.status(400).send({ message: 'Image size limit exceed' })
     }
     const key = Buffer.from(result.path).toString('base64')
     return res.status(200).send({ key })
