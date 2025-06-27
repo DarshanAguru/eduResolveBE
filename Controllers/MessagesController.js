@@ -373,8 +373,11 @@ export const uploadFile = async (req, res) => {
 
     const uuid = Date.now().toString()
     const result = await uploadImage(file, id, uuid)
+    if (result.path === null) {
+      return res.status(400).send({ message: 'Image size should be below 8mb' })
+    }
     const key = Buffer.from(result.path).toString('base64')
-    res.status(200).send({ key })
+    return res.status(200).send({ key })
   } catch (err) {
     console.log(err)
     return res.status(500).send({ message: 'Internal Server Error' })

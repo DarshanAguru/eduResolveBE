@@ -18,6 +18,9 @@ export const uploadImage = async (file, id, uuid) => {
   const b64key = Buffer.from(fileKey).toString('base64')
   const key = `${id}/${b64key}`
   let compressedFile
+  if (file.size > 8 * 1024 * 1024) {
+    return { path: null, loc: null }
+  }
   if (file.size > 2 * 1024 * 1024) {
     compressedFile = await sharp(file.buffer).jpeg({ quality: 60 }).toBuffer()
   } else {
