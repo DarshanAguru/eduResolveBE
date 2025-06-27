@@ -1,4 +1,4 @@
-import { model, Schema } from 'mongoose'
+import { model, Schema } from 'mongoose';
 
 const ForgotPasswordSchema = new Schema({
   userId: { type: String, required: true, unique: true },
@@ -8,8 +8,8 @@ const ForgotPasswordSchema = new Schema({
 },
 {
   timestamps: true
-})
+});
 
-ForgotPasswordSchema.index({ createdAt: 1 }, { expireAfterSeconds: 200 })
+ForgotPasswordSchema.index({ createdAt: 1 }, { expireAfterSeconds: 200 });
 
-export const ForgotPassword = model('ForgotPassword', ForgotPasswordSchema)
+export const ForgotPassword = model('ForgotPassword', ForgotPasswordSchema);

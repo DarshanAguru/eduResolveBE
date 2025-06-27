@@ -1,4 +1,4 @@
-import { model, Schema } from 'mongoose'
+import { model, Schema } from 'mongoose';
 
 const NotificationSchema = new Schema({
   userId: { type: String },
@@ -9,7 +9,7 @@ const NotificationSchema = new Schema({
 },
 {
   timestamps: false
-})
+});
 
 const TeachersSchema = new Schema({
   phoneNumber: { type: String, required: true, unique: true },
@@ -33,6 +33,6 @@ const TeachersSchema = new Schema({
     createdAt: 'created_at',
     updatedAt: 'updated_at'
   }
-})
+});
 
-export const Teachers = model('Teachers', TeachersSchema)
+export const Teachers = model('Teachers', TeachersSchema);

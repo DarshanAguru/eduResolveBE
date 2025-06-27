@@ -1,4 +1,4 @@
-import { model, Schema } from 'mongoose'
+import { model, Schema } from 'mongoose';
 
 const ReplyMessages = new Schema({
   senderId: { type: String },
@@ -12,7 +12,7 @@ const ReplyMessages = new Schema({
   timestamps: {
     createdAt: 'created_at'
   }
-})
+});
 
 const MessagesSchema = new Schema({
   messageId: { type: String, required: true, unique: true }, // coversation id -- student , nonce, msg no 9881901973@03744
@@ -31,6 +31,6 @@ const MessagesSchema = new Schema({
   timestamps: {
     createdAt: 'created_at'
   }
-})
+});
 
-export const Messages = model('Messages', MessagesSchema)
+export const Messages = model('Messages', MessagesSchema);

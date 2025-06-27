@@ -1,6 +1,6 @@
-import { connectTestDB, clearTestDB, closeTestDB } from '../dbConnection.js'
-import LocalAdminHelper from '../localAdminsTests/localAdminTestHelper.js'
-import GlobalAdminHelper from './globalAdminTestHelper.js'
+import { connectTestDB, clearTestDB, closeTestDB } from '../dbConnection.js';
+import LocalAdminHelper from '../localAdminsTests/localAdminTestHelper.js';
+import GlobalAdminHelper from './globalAdminTestHelper.js';
 
 /* eslint-disable  */
 beforeAll(async () => await connectTestDB())

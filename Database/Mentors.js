@@ -1,4 +1,4 @@
-import { model, Schema } from 'mongoose'
+import { model, Schema } from 'mongoose';
 
 const MentorsSchema = new Schema({
   phoneNumber: { type: String, required: true, unique: true },
@@ -21,6 +21,6 @@ const MentorsSchema = new Schema({
     createdAt: 'created_at',
     updatedAt: 'updated_at'
   }
-})
+});
 
-export const Mentors = model('Mentors', MentorsSchema)
+export const Mentors = model('Mentors', MentorsSchema);

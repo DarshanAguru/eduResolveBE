@@ -13,6 +13,6 @@ const apps = [{
     NODE_ENV: 'production'
   }
 
-}]
+}];
 
-export default apps
+export default apps;

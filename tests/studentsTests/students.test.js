@@ -1,5 +1,5 @@
-import { connectTestDB, clearTestDB, closeTestDB } from '../dbConnection.js'
-import StudentHelper from './studentsTestHelper.js'
+import { connectTestDB, clearTestDB, closeTestDB } from '../dbConnection.js';
+import StudentHelper from './studentsTestHelper.js';
 
 /* eslint-disable  */
 beforeAll(async () => await connectTestDB())
@@ -118,8 +118,11 @@ describe('/students endpoints', () => {
   })
 
   it('POST /getAllSchools when no schools are registered', async () => {
-    const res = await StudentHelper.getAllSchools()
-    expect(res.statusCode).toBe(404)
+    const {loginRes, registerRes} = await StudentHelper.createStudentSession()
+    const id = loginRes.body._id
+    const token = loginRes.body.token
+    const res = await StudentHelper.getAllSchools({ id, token })
+    expect(res.statusCode).toBe(404);
   })
 
 

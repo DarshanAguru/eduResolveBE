@@ -1,4 +1,4 @@
-import { model, Schema } from 'mongoose'
+import { model, Schema } from 'mongoose';
 
 const NotificationSchema = new Schema(
   {
@@ -11,7 +11,7 @@ const NotificationSchema = new Schema(
   {
     timestamps: false
   }
-)
+);
 
 const StudentSchema = new Schema(
   {
@@ -34,6 +34,6 @@ const StudentSchema = new Schema(
       updatedAt: 'updated_at'
     }
   }
-)
+);
 
-export const Students = model('Students', StudentSchema)
+export const Students = model('Students', StudentSchema);

@@ -1,4 +1,4 @@
-import { model, Schema } from 'mongoose'
+import { model, Schema } from 'mongoose';
 
 const LocalAdminsSchema = new Schema({
   phoneNumber: { type: String, required: true, unique: true },
@@ -19,6 +19,6 @@ const LocalAdminsSchema = new Schema({
     createdAt: 'created_at',
     updatedAt: 'updated_at'
   }
-})
+});
 
-export const LocalAdmins = model('LocalAdmins', LocalAdminsSchema)
+export const LocalAdmins = model('LocalAdmins', LocalAdminsSchema);

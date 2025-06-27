@@ -1,4 +1,4 @@
-import { model, Schema } from 'mongoose'
+import { model, Schema } from 'mongoose';
 
 const AssignmentSubmissions = new Schema({
   senderId: { type: String },
@@ -10,7 +10,7 @@ const AssignmentSubmissions = new Schema({
   timestamps: {
     createdAt: 'created_at'
   }
-})
+});
 
 const AssignmentsSchema = new Schema({
   assignmentId: { type: String, required: true }, // coversation id -- teacher , nonce, msg no 99840461973@0354
@@ -27,6 +27,6 @@ const AssignmentsSchema = new Schema({
   timestamps: {
     createdAt: 'created_at'
   }
-})
+});
 
-export const Assignments = model('Assignments', AssignmentsSchema)
+export const Assignments = model('Assignments', AssignmentsSchema);
