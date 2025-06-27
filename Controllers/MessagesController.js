@@ -352,9 +352,22 @@ export const reportMessage = async (req, res) => {
 export const uploadFile = async (req, res) => {
   const file = req.file
   const id = req.body.id
+
   if (!file || file === undefined) {
     return res.status(400).json({ error: 'No file uploaded' })
   }
+
+  const lastDotIndex = file.originalname.lastIndexOf('.')
+
+  let fileExtension = ''
+  if (lastDotIndex !== -1) {
+    fileExtension = file.originalname.substring(lastDotIndex + 1)
+  }
+
+  if (['jpeg', 'jpg', 'png'].find((fe) => fe === fileExtension) === undefined) {
+    return res.status(400).json({ error: 'Only jpg, jpeg, png format allowed' })
+  }
+
   try {
     // stmts
 
