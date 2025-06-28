@@ -25,7 +25,11 @@ const editStudentDetails = async (id, details) => {
 const createStudentSession = async (overrides = {}) => {
   const student = studentFactory(overrides);
   const registerRes = await registerStudent(student);
-  const loginRes = await loginStudent({ phoneNumber: student.phoneNumber, password: student.password });
+  const loginRes = await loginStudent({
+    phoneNumber: student.phoneNumber,
+    password: student.password
+  });
+
   return { loginRes, registerRes };
 };
 

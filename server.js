@@ -6,6 +6,7 @@ const port = process.env.PORT || 9000;
 
 if (cluster.isPrimary && process.env.NODE_ENV === 'production') {
   const numCpus = os.cpus().length;
+
   for (let i = 0; i < numCpus; i++) {
     cluster.fork();
   }

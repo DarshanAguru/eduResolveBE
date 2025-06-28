@@ -15,6 +15,7 @@ import globalRouter from './Routes/globalRoutes.js';
 dotenv.config();
 
 const app = express();
+
 app.use(express.json());
 
 try {
@@ -23,19 +24,22 @@ try {
     mongoose.set('strictQuery', false);
   }
 } catch (e) {
-  console.log(e);
+  console.error(e);
 }
-// middle wares
+
+// Middlewares
 
 app.use(compression());
-app.use(cors(
-  {
+
+app.use(
+  cors({
     origin: ['http://localhost:5173'],
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH'],
     credentials: true,
-    optionsSuccessStatus: 204
-  }
-));
+    optionsSuccessStatus: 204,
+  })
+);
+
 // app.use(express.urlencoded({ extended: false }));
 
 app.get('/healthCheck/checkHealthOfServer', (req, res) => {

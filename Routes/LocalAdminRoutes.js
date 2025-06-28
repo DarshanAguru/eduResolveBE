@@ -1,19 +1,52 @@
 import express from 'express';
+
 import { verifyToken } from '../utils/jwt.js';
-import { login, register, logout, verifyTeacher, getTeachersBySchool, rejectTeacher } from '../Controllers/LocalAdminController.js';
+
+import {
+  login,
+  register,
+  logout,
+  verifyTeacher,
+  getTeachersBySchool,
+  rejectTeacher
+} from '../Controllers/LocalAdminController.js';
 
 const LocalAdminRouter = express.Router();
 
-// login and Register
-LocalAdminRouter.post('/login', login);
-LocalAdminRouter.put('/register', register);
+// login and register
+LocalAdminRouter.post(
+  '/login',
+  login
+);
 
-// requires Login and jwt middleware
-LocalAdminRouter.post('/verifyTeacher/:id', verifyToken, verifyTeacher);
-LocalAdminRouter.post('/rejectTeacher/:id', verifyToken, rejectTeacher);
-LocalAdminRouter.post('/getTeachers', verifyToken, getTeachersBySchool);
+LocalAdminRouter.put(
+  '/register',
+  register
+);
+
+// requires login and JWT middleware
+LocalAdminRouter.post(
+  '/verifyTeacher/:id',
+  verifyToken,
+  verifyTeacher
+);
+
+LocalAdminRouter.post(
+  '/rejectTeacher/:id',
+  verifyToken,
+  rejectTeacher
+);
+
+LocalAdminRouter.post(
+  '/getTeachers',
+  verifyToken,
+  getTeachersBySchool
+);
 
 // requires logged in
-LocalAdminRouter.post('/logout/:id', logout);
+LocalAdminRouter.post(
+  '/logout/:id',
+  logout
+);
 
 export default LocalAdminRouter;

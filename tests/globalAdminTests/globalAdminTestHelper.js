@@ -84,9 +84,19 @@ const globalAdminFactory = (overrides = {}) => ({
 // CREATE A GLOBAL ADMIN SESSION (register + login)
 const createGlobalAdminSession = async (overrides = {}) => {
   const admin = globalAdminFactory(overrides);
+
   const registerRes = await registerGlobalAdmin(admin);
-  const loginRes = await loginGlobalAdmin({ phoneNumber: admin.phoneNumber, password: admin.password });
-  return { loginRes, registerRes, admin };
+
+  const loginRes = await loginGlobalAdmin({
+    phoneNumber: admin.phoneNumber,
+    password: admin.password
+  });
+
+  return {
+    loginRes,
+    registerRes,
+    admin
+  };
 };
 
 const GlobalAdminHelper = {

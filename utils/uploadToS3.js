@@ -27,7 +27,9 @@ export const uploadImage = async (file, id, uuid) => {
   }
   // compress file if greater than 2mb
   if (file.size > 2 * 1024 * 1024) {
-    compressedFile = await sharp(file.buffer).jpeg({ quality: 60 }).toBuffer();
+    compressedFile = await sharp(file.buffer)
+                              .jpeg({ quality: 60 })
+                              .toBuffer();
   } else {
     compressedFile = file.buffer;
   }

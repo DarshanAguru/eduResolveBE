@@ -1,36 +1,36 @@
-import request from 'supertest';
-import app from '../../App.js';
+import request from 'supertest'
+import app from '../../App.js'
 
 // REGISTER local ADMIN
 const registerLocalAdmin = async (admin) => {
   return await request(app)
     .put('/localAdmins/register')
     .set('Content-Type', 'application/json')
-    .send(admin);
-};
+    .send(admin)
+}
 
 // LOGIN local ADMIN
 const loginLocalAdmin = async ({ phoneNumber, password }) => {
   return await request(app)
     .post('/localAdmins/login')
     .set('Content-Type', 'application/json')
-    .send({ phoneNumber, password });
-};
+    .send({ phoneNumber, password })
+}
 
 // LOGOUT local ADMIN
 const logoutLocalAdmin = async (id, creds) => {
   return await request(app)
     .post(`/localAdmins/logout/${id}`)
     .set('Content-Type', 'application/json')
-    .send(creds);
-};
+    .send(creds)
+}
 
 // VERIFY MENTOR
 const verifyMentor = async (mentorId) => {
   return await request(app)
     .patch(`/localAdmins/verifyMentor/${mentorId}`)
-    .set('Content-Type', 'application/json');
-};
+    .set('Content-Type', 'application/json')
+}
 
 // FACTORY FOR local ADMIN
 const localAdminFactory = (overrides = {}) => ({
@@ -43,16 +43,22 @@ const localAdminFactory = (overrides = {}) => ({
   institution: 'ABC Institute',
   designation: 'Test Designation',
   address: '123 Test Street, Test City',
-  ...overrides
-});
+  ...overrides,
+})
 
 // CREATE A local ADMIN SESSION (register + login)
 const createLocalAdminSession = async (overrides = {}) => {
-  const admin = localAdminFactory(overrides);
-  const registerRes = await registerLocalAdmin(admin);
-  const loginRes = await loginLocalAdmin({ phoneNumber: admin.phoneNumber, password: admin.password });
-  return { loginRes, registerRes, admin };
-};
+  const admin = localAdminFactory(overrides)
+
+  const registerRes = await registerLocalAdmin(admin)
+
+  const loginRes = await loginLocalAdmin({
+    phoneNumber: admin.phoneNumber,
+    password: admin.password,
+  })
+
+  return { loginRes, registerRes, admin }
+}
 
 const LocalAdminHelper = {
   localAdminFactory,
@@ -60,7 +66,7 @@ const LocalAdminHelper = {
   loginLocalAdmin,
   logoutLocalAdmin,
   verifyMentor,
-  createLocalAdminSession
-};
+  createLocalAdminSession,
+}
 
-export default LocalAdminHelper;
+export default LocalAdminHelper
