@@ -11,6 +11,8 @@ import LocalAdminRouter from './Routes/LocalAdminRoutes.js';
 import GlobalAdminRouter from './Routes/GlobalAdminRoutes.js';
 import MessagesRouter from './Routes/MessagesRoutes.js';
 import globalRouter from './Routes/globalRoutes.js';
+import swaggerSpecs from './swagger.js';
+import swaggerUi from 'swagger-ui-express';
 
 dotenv.config();
 
@@ -53,5 +55,7 @@ app.use('/localAdmins', LocalAdminRouter);
 app.use('/globalAdmins', GlobalAdminRouter);
 app.use('/messages', MessagesRouter);
 app.use('/global', globalRouter);
+
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpecs));
 
 export default app;
