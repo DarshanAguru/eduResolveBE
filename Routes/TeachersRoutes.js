@@ -350,16 +350,14 @@ TeacherRouter.post('/clearNotification/:id', verifyToken, clearNotification);
 /**
  * @openapi
  * /teachers/getAllSchools:
- *   post:
+ *   get:
  *     summary: Get all schools
  *     tags: [Teachers]
- *     security:
- *       - bearerAuth: []
  *     responses:
  *       200:
  *         description: All schools retrieved successfully
  */
-TeacherRouter.post('/getAllSchools', verifyToken, getAllSchools);
+TeacherRouter.get('/getAllSchools', getAllSchools);
 
 /**
  * @openapi

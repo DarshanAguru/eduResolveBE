@@ -54,8 +54,8 @@ describe('/localAdmins endpoints', () => {
     const { loginRes } = await GlobalAdminHelper
       .createGlobalAdminSession()
     const creds = {
-      id: loginRes.body._id,
-      token: loginRes.body.token,
+      id: loginRes.headers['x-user-id'],
+      token: loginRes.headers['authorization'].split(' ')[1],
     }
 
     const allLocalAdmins = await GlobalAdminHelper
@@ -73,7 +73,6 @@ describe('/localAdmins endpoints', () => {
     })
 
     expect(res.statusCode).toBe(200)
-    expect(res.body.token).toBeDefined()
     expect(res.body.phoneNumber).toBe('9847283732')
 
   })
@@ -110,8 +109,8 @@ describe('/localAdmins endpoints', () => {
       .createGlobalAdminSession()
 
     const creds = {
-      id: loginRes.body._id,
-      token: loginRes.body.token,
+      id: loginRes.headers['x-user-id'],
+      token: loginRes.headers['authorization'].split(' ')[1],
     }
 
     const allLocalAdmins = await GlobalAdminHelper
@@ -212,8 +211,8 @@ describe('/localAdmins endpoints', () => {
       .createGlobalAdminSession()
 
     const creds = {
-      id: loginRes.body._id,
-      token: loginRes.body.token,
+      id: loginRes.headers['x-user-id'],
+      token: loginRes.headers['authorization'].split(' ')[1],
     }
 
     const allLocalAdmins = await GlobalAdminHelper
@@ -231,8 +230,8 @@ describe('/localAdmins endpoints', () => {
     })
 
     const credsLA = {
-      id: loginLA.body._id,
-      token: loginLA.body.token,
+      id: loginLA.headers['x-user-id'],
+      token: loginLA.headers['authorization'].split(' ')[1],
     }
 
     const res = await LocalAdminHelper

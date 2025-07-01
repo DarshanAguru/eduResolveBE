@@ -41,9 +41,12 @@ export const login = async (req, res) => {
       password: undefined,
       created_at: undefined,
       updated_at: undefined,
-      __v: undefined,
-      token
+      __v: undefined
     };
+
+    res.setHeader('authorization', "Bearer " + token);
+    res.setHeader('x-user-id', teacher._id);
+    res.setHeader('Access-Control-Expose-Headers', 'Authorization, x-user-id');
 
     return res.status(200).send(dataToSend);
   } catch {
@@ -106,9 +109,15 @@ export const editDetails = async (req, res) => {
 
 export const logout = async (req, res) => {
   const id = req.params.id;
-  const { token } = req.body;
-
+  
   try {
+    const sentToken = req.headers['authorization'];
+    
+    if (!sentToken || !sentToken.startsWith('Bearer ')) {
+      return res.status(401).send({ message: 'Not authorized' });
+    }
+
+    const token = sentToken.split(' ')[1];
     const decoded = jwt.verify(token, process.env.JWT_SECRET_KEY, {
       algorithms: ['HS256']
     });

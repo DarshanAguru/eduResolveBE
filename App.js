@@ -38,7 +38,7 @@ app.use(
     origin: ['http://localhost:5173'],
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH'],
     credentials: true,
-    optionsSuccessStatus: 204,
+    optionsSuccessStatus: 204
   })
 );
 

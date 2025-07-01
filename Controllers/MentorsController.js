@@ -57,9 +57,12 @@ export const login = async (req, res) => {
       messages: undefined,
       created_at: undefined,
       updated_at: undefined,
-      __v: undefined,
-      token
+      __v: undefined
     };
+
+    res.setHeader('authorization', "Bearer " + token);
+    res.setHeader('x-user-id', mentor._id);
+    res.setHeader('Access-Control-Expose-Headers', 'Authorization, x-user-id');
 
     res.status(200).send(dataToSend);
   } catch (err) {
@@ -153,8 +156,13 @@ export const logout = async (req, res) => {
   const id = req.params.id;
 
   try {
-    const token = req.body.token;
+    const sentToken = req.headers['authorization'];
+    
+    if (!sentToken || !sentToken.startsWith('Bearer ')) {
+      return res.status(401).send({ message: 'Not authorized' });
+    }
 
+    const token = sentToken.split(' ')[1];
     const decoded = await jwt.verify(
       token,
       process.env.JWT_SECRET_KEY,

@@ -15,10 +15,12 @@ const loginStudent = async ({ phoneNumber, password }) => {
     .send({ phoneNumber, password });
 };
 
-const editStudentDetails = async (id, details) => {
+const editStudentDetails = async (id, details, creds) => {
   return await request(app)
     .patch(`/students/editDetails/${id}`)
     .set('Content-Type', 'application/json')
+    .set('authorization', `Bearer ${creds.token}`)
+    .set('x-user-id', creds.id)
     .send(details);
 };
 
@@ -37,14 +39,16 @@ const logoutStudent = async (id, creds) => {
   return await request(app)
     .post(`/students/logout/${id}`)
     .set('Content-Type', 'application/json')
-    .send({ id: creds.id, token: creds.token });
+    .set('authorization', `Bearer ${creds.token}`)
+    .set('x-user-id', creds.id);
 };
 
 const getAllSchools = async (creds) => {
   return await request(app)
     .post('/students/getAllSchools')
     .set('Content-Type', 'application/json')
-    .send(creds);
+    .set('authorization', `Bearer ${creds.token}`)
+    .set('x-user-id', creds.id);
 };
 
 const studentFactory = (overrides = {}) => ({

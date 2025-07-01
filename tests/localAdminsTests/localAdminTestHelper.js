@@ -22,14 +22,17 @@ const logoutLocalAdmin = async (id, creds) => {
   return await request(app)
     .post(`/localAdmins/logout/${id}`)
     .set('Content-Type', 'application/json')
-    .send(creds)
+    .set('authorization', `Bearer ${creds.token}`)
+    .set('x-user-id', creds.id);
 }
 
 // VERIFY MENTOR
-const verifyMentor = async (mentorId) => {
+const verifyTeacher = async (teacherId, creds) => {
   return await request(app)
-    .patch(`/localAdmins/verifyMentor/${mentorId}`)
+    .patch(`/localAdmins/verifyTeacher/${teacherId}`)
     .set('Content-Type', 'application/json')
+    .set('authorization', `Bearer ${creds.token}`)
+    .set('x-user-id', creds.id);
 }
 
 // FACTORY FOR local ADMIN
@@ -65,7 +68,7 @@ const LocalAdminHelper = {
   registerLocalAdmin,
   loginLocalAdmin,
   logoutLocalAdmin,
-  verifyMentor,
+  verifyTeacher,
   createLocalAdminSession,
 }
 

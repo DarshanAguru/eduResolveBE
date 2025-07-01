@@ -5,10 +5,10 @@ export async function verifyToken (req, res, next) {
 
   try {
 
-    const token = req.body.token;
-    const userIdReq = req.body.id;
+    const sentToken =  req.headers['authorization'];
+    const userIdReq = req.headers['x-user-id'];
 
-    if (token === null || token === undefined || token.trim() === '') {
+    if (sentToken === null || sentToken === undefined || sentToken.trim() === '' || sentToken.indexOf('Bearer ') !== 0) {
 
       return res
         .status(401)
@@ -28,7 +28,7 @@ export async function verifyToken (req, res, next) {
     }
 
     const jwtRegex = /^[A-Za-z0-9-_]+\.[A-Za-z0-9-_]+\.[A-Za-z0-9-_]+$/;
-
+    const token = sentToken.split(' ')[1];
     if (!jwtRegex.test(token)) {
 
       return res

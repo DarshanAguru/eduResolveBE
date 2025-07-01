@@ -58,7 +58,6 @@ describe('/globalAdmins endpoints', () => {
     })
 
     expect(res.statusCode).toBe(200)
-    expect(res.body.token).toBeDefined()
     expect(res.body.phoneNumber).toBe('9876543210')
 
   })
@@ -147,8 +146,8 @@ describe('/globalAdmins endpoints', () => {
 
       const { loginRes } = await GlobalAdminHelper.createGlobalAdminSession()
       const creds = {
-        id: loginRes.body._id,
-        token: loginRes.body.token
+        id: loginRes.headers['x-user-id'],
+        token: loginRes.headers['authorization'].split(' ')[1]
       }
 
       const localAdmin = LocalAdminHelper.localAdminFactory()
@@ -183,12 +182,11 @@ describe('/globalAdmins endpoints', () => {
 
       const { loginRes } = await GlobalAdminHelper.createGlobalAdminSession()
       const creds = {
-        id: loginRes.body._id,
-        token: loginRes.body.token
-      }
+        id: loginRes.headers['x-user-id'],
+        token: loginRes.headers['authorization'].split(' ')[1]
+      };
 
-      const res = await GlobalAdminHelper.getAllLocalAdmins(creds)
-
+      const res = await GlobalAdminHelper.getAllLocalAdmins(creds);
       expect(res.statusCode).toBe(404)
 
     }
@@ -198,8 +196,8 @@ describe('/globalAdmins endpoints', () => {
 
     const { loginRes } = await GlobalAdminHelper.createGlobalAdminSession()
     const creds = {
-      id: loginRes.body._id,
-      token: loginRes.body.token
+      id: loginRes.headers['x-user-id'],
+      token: loginRes.headers['authorization'].split(' ')[1]
     }
 
     const localAdmin = LocalAdminHelper.localAdminFactory()
@@ -226,8 +224,8 @@ describe('/globalAdmins endpoints', () => {
 
     const { loginRes } = await GlobalAdminHelper.createGlobalAdminSession()
     const creds = {
-      id: loginRes.body._id,
-      token: loginRes.body.token
+      id: loginRes.headers['x-user-id'],
+      token: loginRes.headers['authorization'].split(' ')[1]
     }
 
     const localAdmin = LocalAdminHelper.localAdminFactory()
@@ -253,10 +251,10 @@ describe('/globalAdmins endpoints', () => {
   it('POST /logout logs out the global admin', async () => {
 
     const { loginRes } = await GlobalAdminHelper.createGlobalAdminSession()
-    const adminId = loginRes.body._id
+    const adminId = loginRes.headers['x-user-id']
     const creds = {
       id: adminId,
-      token: loginRes.body.token
+      token: loginRes.headers['authorization'].split(' ')[1]
     }
 
     const res = await GlobalAdminHelper.logoutGlobalAdmin(

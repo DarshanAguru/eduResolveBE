@@ -50,7 +50,6 @@ describe('/students endpoints', () => {
     });
 
     expect(res.statusCode).toBe(200);
-    expect(res.body.token).toBeDefined();
     expect(res.body.phoneNumber).toBe('9999999999');
   });
 
@@ -105,65 +104,87 @@ describe('/students endpoints', () => {
 
   it('PATCH /editDetails edits details of a student', async () => {
     const { loginRes, registerRes } = await StudentHelper.createStudentSession();
-    const studentId = loginRes.body._id;
+    const studentId = loginRes.headers['x-user-id'];
+
     const updatedDetails = {
-      id: studentId,
-      token: loginRes.body.token,
       name: 'Updated Name',
       grade: '11'
     };
+    
+    const creds = {
+      id: studentId,
+      token: loginRes.headers['authorization'].split(' ')[1]
+    }
+    
 
-    const res = await StudentHelper.editStudentDetails(studentId, updatedDetails);
+    const res = await StudentHelper.editStudentDetails(
+        studentId,
+        updatedDetails,
+        creds
+      );
 
     expect(registerRes.statusCode).toBe(201);
     expect(registerRes.body.message).toBe('Registered');
     expect(loginRes.statusCode).toBe(200);
-    expect(loginRes.body.token).toBeDefined();
     expect(res.statusCode).toBe(200);
     expect(res.body.message).toBe('Success');
   });
 
   it('PATCH /editDetails fails to edit details with invalid token', async () => {
     const { loginRes, registerRes } = await StudentHelper.createStudentSession();
-    const studentId = loginRes.body._id;
+    const studentId = loginRes.headers['x-user-id'];
+
     const updatedDetails = {
-      id: studentId,
-      token: 'invalidtoken',
       name: 'Updated Name',
       grade: '11'
     };
 
-    const res = await StudentHelper.editStudentDetails(studentId, updatedDetails);
+    const creds = {
+      id: studentId,
+      token: 'invalidtoken',
+    }
+
+    const res = await StudentHelper.editStudentDetails(
+      studentId,
+      updatedDetails,
+      creds
+    );
 
     expect(registerRes.statusCode).toBe(201);
     expect(registerRes.body.message).toBe('Registered');
     expect(loginRes.statusCode).toBe(200);
-    expect(loginRes.body.token).toBeDefined();
     expect(res.statusCode).toBe(403);
   });
 
   it('PATCH /editDetails fails to edit details with invalid id', async () => {
     const { loginRes, registerRes } = await StudentHelper.createStudentSession();
+
     const updatedDetails = {
-      id: 'invalid',
-      token: loginRes.body.token,
       name: 'Updated Name',
       grade: '11'
     };
 
-    const res = await StudentHelper.editStudentDetails('invalid', updatedDetails);
+    const creds = {
+      id: loginRes.headers['x-user-id'],
+      token: loginRes.headers['authorization'].split(' ')[1]
+    };
+
+    const res = await StudentHelper.editStudentDetails(
+      'invalid',
+      updatedDetails,
+      creds
+    );
 
     expect(registerRes.statusCode).toBe(201);
     expect(registerRes.body.message).toBe('Registered');
     expect(loginRes.statusCode).toBe(200);
-    expect(loginRes.body.token).toBeDefined();
     expect(res.statusCode).toBe(403);
   });
 
   it('POST /getAllSchools when no schools are registered', async () => {
     const { loginRes, registerRes } = await StudentHelper.createStudentSession();
-    const id = loginRes.body._id;
-    const token = loginRes.body.token;
+    const id = loginRes.headers['x-user-id'];
+    const token = loginRes.headers['authorization'].split(' ')[1];
 
     const res = await StudentHelper.getAllSchools({ id, token });
 
@@ -172,8 +193,11 @@ describe('/students endpoints', () => {
 
   it('POST /logout logs out the student', async () => {
     const { loginRes, registerRes } = await StudentHelper.createStudentSession();
-    const studentId = loginRes.body._id;
-    const creds = { id: studentId, token: loginRes.body.token };
+    const studentId = loginRes.headers['x-user-id'];
+    const creds = {
+      id: studentId,
+      token: loginRes.headers['authorization'].split(' ')[1]
+    };
 
     const res = await StudentHelper.logoutStudent(studentId, creds);
 

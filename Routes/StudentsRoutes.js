@@ -397,20 +397,17 @@ StudentRouter.post(
 /**
  * @openapi
  * /students/getAllSchools:
- *   post:
+ *   get:
  *     summary: Get all schools
  *     tags: [Students]
- *     security:
- *       - bearerAuth: []
  *     responses:
  *       200:
  *         description: All schools retrieved successfully
  *       404:
  *         description: Not Found
  */
-StudentRouter.post(
+StudentRouter.get(
     '/getAllSchools',
-    verifyToken,
     getAllSchools
 );
 

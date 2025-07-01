@@ -22,7 +22,8 @@ const logoutGlobalAdmin = async (id, creds) => {
   return await request(app)
     .post(`/globalAdmins/logout/${id}`)
     .set('Content-Type', 'application/json')
-    .send(creds);
+    .set('authorization', `Bearer ${creds.token}`)
+    .set('x-user-id', creds.id);
 };
 
 // VERIFY MENTOR
@@ -43,8 +44,8 @@ const rejectMentor = async (mentorId) => {
 const verifyLocalAdmin = async (localAdminId, creds) => {
   return await request(app)
     .post(`/globalAdmins/verifyLocalAdmin/${localAdminId}`)
-    .set('Content-Type', 'application/json')
-    .send(creds);
+    .set('authorization', `Bearer ${creds.token}`)
+    .set('x-user-id', creds.id);
 };
 
 // REJECT LOCAL ADMIN
@@ -52,7 +53,8 @@ const rejectLocalAdmin = async (localAdminId, creds) => {
   return await request(app)
     .post(`/globalAdmins/rejectLocalAdmin/${localAdminId}`)
     .set('Content-Type', 'application/json')
-    .send(creds);
+    .set('authorization', `Bearer ${creds.token}`)
+    .set('x-user-id', creds.id);
 };
 
 // GET ALL MENTORS
@@ -66,8 +68,9 @@ const getAllMentors = async () => {
 const getAllLocalAdmins = async (creds) => {
   return await request(app)
     .post('/globalAdmins/getAllLocalAdmins')
-    .set('Content-Type', 'application/json')
-    .send(creds);
+    .set('authorization', `Bearer ${creds.token}`)
+    .set('x-user-id', creds.id)
+    .set('Content-Type', 'application/json');
 };
 
 // FACTORY FOR GLOBAL ADMIN
